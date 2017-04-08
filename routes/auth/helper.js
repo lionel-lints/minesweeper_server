@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-function getTokenFromHeader(req) {
+const getTokenFromHeader = (req) => {
   const token = req.get('Authorization');
   if (token) {
     const tokenSplit = token.split(' ');
@@ -8,7 +8,7 @@ function getTokenFromHeader(req) {
   } else return false;
 }
 
-function verifyJWT(token) {
+const verifyJWT = (token) => {
   return new Promise((resolve) => {
     jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
       if (err) return resolve();
@@ -17,7 +17,7 @@ function verifyJWT(token) {
   });
 }
 
-function checkTokenSetUser(req, res, next) {
+const checkTokenSetUser = (req, res, next) => {
   const token = getTokenFromHeader(req);
 
   if (token) {
@@ -31,7 +31,7 @@ function checkTokenSetUser(req, res, next) {
   }
 }
 
-function loggedIn(req, res, next) {
+const loggedIn = (req, res, next) => {
   if(req.user && !isNaN(Number(req.user.id))) next();
   else {
     res.status(401);

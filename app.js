@@ -3,13 +3,16 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const helmet = require('helmet')
+
 
 const routes = require('./routes/index');
 
 const app = express();
 
 /* Middleware */
-app.use(logger('dev'));
+app.get('env') === 'development' ? app.use(logger('dev')): '';
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

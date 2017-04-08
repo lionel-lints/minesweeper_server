@@ -7,7 +7,7 @@ const authHelper = require('./auth/helper.js');
 const router = express.Router();
 
 /* Add user if loggedIn */
-app.use(authHelper.checkTokenSetUser);
+router.use(authHelper.checkTokenSetUser);
 
 /* GET example json. */
 router.get('/', (req, res, next) => {
@@ -15,6 +15,6 @@ router.get('/', (req, res, next) => {
 });
 
 router.use('/auth', auth);
-router.use('/api/v1', auth.loggedIn, api);
+router.use('/api/v1', authHelper.loggedIn, api);
 
 module.exports = router;
