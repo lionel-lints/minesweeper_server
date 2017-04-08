@@ -1,11 +1,11 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router({mergeParams: true});
 
 const tables = require('../../db/tables');
 
 /* GET all user's games. */
 router.get('/', (req, res) => {
-  tables.Games().then((games) => {
+  tables.Games().where({ user_id: req.params.user_id }).then((games) => {
     res.json(games);
   }).catch((error) => {
     console.error(error);

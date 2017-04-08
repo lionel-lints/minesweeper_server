@@ -8,27 +8,29 @@ const routes = require('./routes/index');
 
 const app = express();
 
+/* Middleware */
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+/*  Router */
 app.use('/', routes);
 
-// catch 404 and forward to error handler
+/* Catch 404 and forward to error handler */
 app.use((req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handler
+/* Error handler */
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.json({
     message: err.message,
-    /* if dev env show error, if not, show nothing */ 
+    /* if dev env show error, if not, show nothing */
     error: app.get('env') === 'development' ? err : {}
   });
 });

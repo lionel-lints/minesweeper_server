@@ -10,7 +10,7 @@ router.get('/', (req, res, next) => {
   res.json({ title: 'Mine SWEEP!' });
 });
 
-router.use('/auth', auth.router);
+router.use('/auth', auth);
 router.use('/api/v1', api);
 
 module.exports = router;
