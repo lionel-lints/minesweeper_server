@@ -4,7 +4,7 @@ const router = express.Router();
 const games = require('./games');
 const tables = require('../../db/tables');
 
-/* GET users. */
+/* GET users. MUST BE REMOVED BEFORE GOING LIVE*/
 router.get('/', (req, res) => {
   tables.Users().then((users) => {
     res.json(users);
@@ -15,6 +15,11 @@ router.get('/', (req, res) => {
 
 /* GET a user. */
 router.get('/:id', (req, res, next) => {
+  tables.Users().where({ id: req.params.id }).then((user) => {
+    res.json(user);
+  }).catch((error) => {
+    console.error(error);
+  });
 });
 
 /* POST a new user. */
