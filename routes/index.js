@@ -2,8 +2,12 @@ const express = require('express');
 
 const auth = require('./auth/index.js');
 const api = require('./api/index.js');
+const authHelper = require('./auth/helper.js');
 
 const router = express.Router();
+
+/* Add user if loggedIn */
+app.use(authHelper.checkTokenSetUser);
 
 /* GET example json. */
 router.get('/', (req, res, next) => {
@@ -11,6 +15,6 @@ router.get('/', (req, res, next) => {
 });
 
 router.use('/auth', auth);
-router.use('/api/v1', api);
+router.use('/api/v1', auth.loggedIn, api);
 
 module.exports = router;
