@@ -4,11 +4,11 @@ function Users() {
   return knex('users');
 }
 
-function Stats() {
-  return knex('stats');
+function Games() {
+  return knex('games');
 }
 
 module.exports = {
   Users,
-  Stats,
+  Games,
 };
