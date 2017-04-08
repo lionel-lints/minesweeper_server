@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   development: {
     client: 'pg',
-    connection: 'postgres://localhost/mine_sweeper',
+    connection: 'postgres://localhost/minesweeper_server',
   },
   /* Possible future test environment.
   test: {
