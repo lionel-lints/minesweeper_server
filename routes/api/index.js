@@ -4,7 +4,7 @@ const games = require('./games.js');
 
 const router = express.Router();
 
-router.use('/', users);
+router.use('/users', users);
 
 /* Get highScores for display */
 router.get('/highscores', (req, res, next) => {

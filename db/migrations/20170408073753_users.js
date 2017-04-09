@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
     table.increments();
     table.text('first_name').notNullable().defaultTo('');
     table.text('last_name').notNullable().defaultTo('');
-    table.text('email').notNullable().defaultTo('');
+    table.text('email').unique().notNullable();
     table.specificType('hashed_password', 'char(60)').notNullable();
     table.timestamps(true, true);
   }); 
