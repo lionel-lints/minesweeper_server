@@ -32,8 +32,9 @@ const checkTokenSetUser = (req, res, next) => {
 }
 
 const loggedIn = (req, res, next) => {
-  if(req.user && !isNaN(Number(req.user.id))) next();
-  else {
+  if(req.user && !isNaN(Number(req.user.id))){
+    next();
+  } else {
     res.status(401);
     res.json({message: 'UnAuthorized'});
   }

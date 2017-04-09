@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const helmet = require('helmet')
 
-
 const routes = require('./routes/index');
 
 const app = express();

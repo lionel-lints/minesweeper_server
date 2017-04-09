@@ -6,4 +6,8 @@ const router = express.Router();
 
 router.use('/', users);
 
+/* Get highScores for display */
+router.get('/highscores', (req, res, next) => {
+});
+
 module.exports = router;

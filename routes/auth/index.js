@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const {encodeToken, decodeToken} = require('./local');
 
 router.use('/register', (req, res, next) => {
   res.json({ title: 'test register!' });
