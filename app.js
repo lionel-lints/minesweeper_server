@@ -5,16 +5,27 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const helmet = require('helmet')
 
+require('dotenv').load();
+
 const routes = require('./routes/index');
+
 
 const app = express();
 
 /* Middleware */
 app.get('env') === 'development' ? app.use(logger('dev')): '';
+
+/*  Set security-related headers */
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+
+/* Set sensible security cookie defaults */
+app.use(cookieParser(process.env.COOKIE_SECRET, {
+  secure: true,
+  httpOnly: true
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 /*  Router */

@@ -266,6 +266,10 @@ expand-tilde@^1.2.2:
   dependencies:
     os-homedir "^1.0.1"
 
+express-bouncer@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/express-bouncer/-/express-bouncer-0.2.0.tgz#392058966f6dfb991e7b651a1a3f0a363193cb04"
+
 express@~4.13.1:
   version "4.13.4"
   resolved "https://registry.yarnpkg.com/express/-/express-4.13.4.tgz#3c0b76f3c77590c8345739061ec0bd3ba067ec24"

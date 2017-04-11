@@ -1,6 +1,7 @@
 const express = require('express');
 const moment = require('moment');
 const jwt = require('jsonwebtoken');
+var bouncer = require ("express-bouncer")(500, 900000);
 
 const tables = require('../../db/tables');
 const { encodeToken, decodeToken } = require('./local');
@@ -8,9 +9,14 @@ const { createUser, loggedIn, checkTokenSetUser } = require('./helper');
 
 const router = express.Router();
 
+/* add bouncer error response when too many requests have been made (brute-force protection)*/ 
+bouncer.blocked = (req, res, next, remaining) => {
+  res.status(429).json({
+    status: `Too many requests have been made, please wait ${remaining / 1000} seconds`
+  });
+};
+ 
 router.use('/register', (req, res, next) => {
-  /* Check email isn't used */
-
   return createUser(req).then((user) => { 
     return encodeToken(user[0]); 
   }).then((token) => {
@@ -19,13 +25,14 @@ router.use('/register', (req, res, next) => {
       token: token
     });
   }).catch((err) => {
+    /* If user has already been created, informitive error */
     res.status(500).json({
-      status: 'error'
+      status: err.code === '23505' ? 'user already exists' : 'error'
     });
   });
 });
 
-router.use('/login', (req, res, next) => {
+router.use('/login', bouncer.block, (req, res, next) => {
   return tables.Users().where({ email: req.body.email }).first()
     .then((response) => {
       let realz = decodeToken(req.body.hashed_password, (err, payload) => { return payload });
@@ -35,6 +42,9 @@ router.use('/login', (req, res, next) => {
   })
   .then((response) => { return encodeToken(response); })
   .then((token) => {
+    /* On successful login, reset the bouncer */
+    bouncer.reset (req);
+
     res.status(200).json({
       status: 'success',
       token: token
