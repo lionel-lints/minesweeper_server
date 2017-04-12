@@ -1,4 +1,5 @@
 const express = require('express');
+const moment = require('moment');
 const tables = require('../../db/tables');
 
 const router = express.Router({ mergeParams: true });
@@ -6,9 +7,11 @@ const router = express.Router({ mergeParams: true });
 /* GET all user's games. */
 router.get('/', (req, res) => {
   if (res.locals.user.sub === Number(req.params.user_id)) {
-    tables.Games().where({ user_id: req.params.user_id }).then((games) => {
+    tables.Games().where({ user_id: req.params.user_id })
+    .then((games) => {
       res.json(games);
-    }).catch((error) => {
+    })
+    .catch((error) => {
       res.status(500).json({
         status: 'games not retrieved from db',
         error,
@@ -22,7 +25,8 @@ router.get('/', (req, res) => {
 /* DELETE all user's games. */
 router.delete('/', (req, res, next) => {
   if (res.locals.user.sub === Number(req.params.user_id)) {
-    tables.Games().where('id', req.user.id).del().then((response) => {
+    tables.Games().where('id', req.user.id).del()
+    .then((response) => {
       res.sendStatus(204);
     })
     .catch((error) => {
@@ -66,6 +70,20 @@ router.post('/', (req, res, next) => {
 
 /* DELETE a game. */
 router.delete('/:id', (req, res, next) => {
+  if (res.locals.user.sub === Number(req.params.user_id)) {
+    tables.Games().where('id', req.params.id).del()
+    .then((result) => {
+      res.sendStatus(204);
+    })
+    .catch((error) => {
+      res.status(500).json({
+        status: 'game not removed from db',
+        error,
+      });
+    });
+  } else {
+    res.status(401).json({ message: 'UnAuthorized' });
+  }
 });
 
 module.exports = router;

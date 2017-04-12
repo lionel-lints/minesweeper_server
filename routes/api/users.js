@@ -8,9 +8,11 @@ const router = express.Router();
 /* GET a user. */
 router.get('/:id', (req, res, next) => {
   if (res.locals.user.sub === Number(req.params.id)) {
-    tables.Users().where({ id: req.params.id }).then((user) => {
+    tables.Users().where({ id: req.params.id })
+    .then((user) => {
       res.json(user);
-    }).catch((error) => {
+    })
+    .catch((error) => {
       res.status(500).json({
         status: 'user not retrieved from db',
         error,
@@ -58,7 +60,8 @@ router.put('/:id', (req, res, next) => {
 /* DELETE a user. */
 router.delete('/:id', (req, res, next) => {
   if (res.locals.user.sub === Number(req.params.id)) {
-    tables.Users().where('id', req.user.id).del().then((user) => {
+    tables.Users().where('id', req.user.id).del()
+    .then((user) => {
       res.sendStatus(204);
     })
     .catch((error) => {
