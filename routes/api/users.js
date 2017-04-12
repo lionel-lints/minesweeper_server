@@ -34,6 +34,18 @@ router.put('/:id', (req, res, next) => {
 
 /* Delete a user. */
 router.delete('/:id', (req, res, next) => {
+  if (res.locals.user.id === req.params.id){
+    tables.Users().where('id', req.user.id).del().then((user) =>{
+      res.sendStatus(204);
+    }).catch((error) => {
+      res.status(500).json({
+        status: 'user not removed from db',
+        error,
+      });
+    });
+  } else {
+    res.status(401).json({ message: 'UnAuthorized' });
+  }
 });
 
 /* Add the games resource for a user. */
