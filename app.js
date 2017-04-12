@@ -13,11 +13,11 @@ const app = express();
 
 /* Middleware */
 app.use(logger(app.get('env') === 'development' ? 'dev' : 'tiny'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 /*  Set security-related headers */
 app.use(helmet());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 /* Set sensible security cookie defaults */
 app.use(cookieParser(process.env.COOKIE_SECRET, {

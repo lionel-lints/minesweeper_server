@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 const bouncer = require('express-bouncer')(500, 900000);
 
 const tables = require('../../db/tables');
-const { encodeToken, decodeToken } = require('./local');
-const { createUser, comparePass, loggedIn, checkTokenSetUser } = require('./helper');
+const { encodeToken } = require('./local');
+const { createUser, comparePass } = require('./helper');
 
 const router = express.Router();
 

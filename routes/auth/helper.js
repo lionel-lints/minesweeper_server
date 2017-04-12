@@ -38,7 +38,7 @@ const checkTokenSetUser = (req, res, next) => {
   }
 };
 
-/* Allows next() if user has been added to the req object */
+/* Allows access if user has been added to the req & res.locals objects */
 const loggedIn = (req, res, next) => {
   if (req.user && req.user === res.locals.user && !isNaN(Number(req.user.sub))) {
     next();
@@ -48,7 +48,7 @@ const loggedIn = (req, res, next) => {
   }
 };
 
-/* Compares the client subbed pass with the DB Hashed Pass */
+/* Compares the client subbed pass with the DB hashed pass */
 const comparePass = (clientRawPass, dbHashedPass) => {
   const bool = bcrypt.compareSync(clientRawPass, dbHashedPass);
   if (!bool) throw new Error('incorrect password or email');

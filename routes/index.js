@@ -6,7 +6,7 @@ const { checkTokenSetUser, loggedIn } = require('./auth/helper');
 
 const router = express.Router();
 
-/* Add user to req if loggedIn */
+/* Add user to req & res.locals if token is verified */
 router.use(checkTokenSetUser);
 
 /* Login, logout, & register routes */
