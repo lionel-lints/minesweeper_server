@@ -1,5 +1,7 @@
 const path = require('path');
 
+require('dotenv').load();
+
 module.exports = {
   development: {
     client: 'pg',

@@ -29,7 +29,7 @@ exports.seed = (knex, Promise) => {
         last_name: 'SwizzleStopper',
         email: 'adam@example.com',
         hashed_password: '$2a$12$C9AYYmcLVGYlGoO4vSZTPud9ArJwbGRsJ6TUsNULzR48z8fOnTXbS',
-      },
-    ));
+      })
+    );
   });
 };
