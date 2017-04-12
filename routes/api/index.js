@@ -14,14 +14,14 @@ router.get('/highscores', (req, res, next) => {
   .orderBy('completion_speed', 'asc')
   .where({ successfully_completed: true })
   .limit(10)
-  .then((games) => {
-    games = games.map(game => { 
+  .then((gamesArray) => {
+    const returnArray = gamesArray.map((game) => {
       return {
         first_name: game.first_name,
         completion_speed: game.completion_speed,
-      }
+      };
     });
-    res.json(games);
+    res.json(returnArray);
   })
   .catch((error) => {
     res.status(500).json({
