@@ -5,7 +5,7 @@ var bouncer = require ("express-bouncer")(500, 900000);
 
 const tables = require('../../db/tables');
 const { encodeToken, decodeToken } = require('./local');
-const { createUser, loggedIn, checkTokenSetUser } = require('./helper');
+const { createUser, comparePass, loggedIn, checkTokenSetUser } = require('./helper');
 
 const router = express.Router();
 
@@ -35,21 +35,23 @@ router.use('/register', (req, res, next) => {
 router.use('/login', bouncer.block, (req, res, next) => {
   return tables.Users().where({ email: req.body.email }).first()
     .then((response) => {
-      let realz = decodeToken(req.body.hashed_password, (err, payload) => { return payload });
-    }).then((payload)=>{
-      let result = comparePass(req.body.hashed_password, response.hashed_password);
-    return result === true ? response : result;
-  })
-  .then((response) => { return encodeToken(response); })
-  .then((token) => {
-    /* On successful login, reset the bouncer */
-    bouncer.reset (req);
-
-    res.status(200).json({
-      status: 'success',
-      token: token
-    });
-  })
+      comparePass(req.body.hashed_password, response.hashed_password)
+      return response;
+    }).then((response) => {
+      return encodeToken(response);
+    }).then((token) => {
+      /* On successful login, reset the bouncer */
+      bouncer.reset (req);
+      res.cookie('token', token, { 
+        httpOnly: true,
+        domain: process.env.DOMAIN,
+        expires: 14*24*60*60*1000
+      });
+      res.status(200).json({
+        status: 'success',
+        token: token
+      });
+    })
   .catch((err) => {
     res.status(500).json({
       status: 'error'

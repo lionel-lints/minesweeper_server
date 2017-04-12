@@ -22,10 +22,6 @@ router.get('/:id', (req, res, next) => {
   });
 });
 
-/* POST a new user. */
-router.post('/', (req, res, next) => {
-});
-
 /* UPDATE a user. */
 router.put('/:id', (req, res, next) => {
 });

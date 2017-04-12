@@ -22,6 +22,7 @@ const verifyJWT = (token) => {
   });
 }
 
+/* Adds user to req object if token is verified */
 const checkTokenSetUser = (req, res, next) => {
   const token = getTokenFromHeader(req);
   if (token) {
@@ -35,6 +36,7 @@ const checkTokenSetUser = (req, res, next) => {
   }
 }
 
+/* Allows next() if user has been added to the req object */
 const loggedIn = (req, res, next) => {
   if(req.user && !isNaN(Number(req.user.sub))){
     next();
@@ -44,8 +46,9 @@ const loggedIn = (req, res, next) => {
   }
 }
 
-const comparePass = (clientPass, dbPass) => {
-  const bool = bcrypt.compareSync(clientPass, dbPass);
+/* Compares the client subbed pass with the DB Hashed Pass */
+const comparePass = (clientRawPass, dbHashedPass) => {
+  const bool = bcrypt.compareSync(clientRawPass, dbHashedPass);
   if (!bool) throw new Error('incorrect password or email');
   else return true;
 }
