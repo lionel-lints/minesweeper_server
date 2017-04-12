@@ -12,16 +12,13 @@ router.get('/', (req, res) => {
   });
 });
 
-/* GET a game. */
-router.get('/:id', (req, res, next) => {
+/* Delete all user's games. */
+router.delete('/', (req, res, next) => {
+
 });
 
 /* POST a new game. */
 router.post('/', (req, res, next) => {
-});
-
-/* UPDATE a game. */
-router.put('/:id', (req, res, next) => {
 });
 
 /* Delete a game. */

@@ -22,7 +22,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /* Set sensible security cookie defaults */
 app.use(cookieParser(process.env.COOKIE_SECRET, {
   httpOnly: true,
-  domain: process.env.DOMAIN,
   expires: 14*24*60*60*1000
 }));
 

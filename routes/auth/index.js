@@ -40,13 +40,11 @@ router.use('/login', bouncer.block, (req, res, next) => {
     }).then((response) => {
       return encodeToken(response);
     }).then((token) => {
-      /* On successful login, reset the bouncer */
+      /* On successful login, reset the bouncer & set the token */
       bouncer.reset (req);
-      res.cookie('token', token, { 
-        httpOnly: true,
-        domain: process.env.DOMAIN,
-        expires: 14*24*60*60*1000
-      });
+      console.log("SUCCESS?", token)
+      res.cookie('token', token, { httpOnly: true });
+      console.log(res.cookies)
       res.status(200).json({
         status: 'success',
         token: token
@@ -60,7 +58,8 @@ router.use('/login', bouncer.block, (req, res, next) => {
 });
 
 router.use('/logout', (req, res, next) => {
-  res.json({ title: 'test logout!' });
+  res.clearCookie('token');
+  res.json({ title: 'You have logged out!' });
 });
 
 module.exports = router;

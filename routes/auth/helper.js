@@ -29,6 +29,7 @@ const checkTokenSetUser = (req, res, next) => {
     verifyJWT(token)
       .then(user => {
         req.user = user;
+        res.locals.user = user;
         next();
       });
   } else {
@@ -38,7 +39,7 @@ const checkTokenSetUser = (req, res, next) => {
 
 /* Allows next() if user has been added to the req object */
 const loggedIn = (req, res, next) => {
-  if(req.user && !isNaN(Number(req.user.sub))){
+  if(req.user && req.user === res.locals.user && !isNaN(Number(req.user.sub))){
     next();
   } else {
     res.status(401);
