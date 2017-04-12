@@ -1,6 +1,5 @@
-
-exports.seed = function(knex, Promise) {
-  return knex.raw('ALTER SEQUENCE users_id_seq restart with 5;').then(function () {
+exports.seed = (knex, Promise) => {
+  return knex.raw('ALTER SEQUENCE users_id_seq restart with 5;').then(() => {
     return Promise.join(
       knex('users').del(),
       knex('users').insert({
@@ -30,7 +29,7 @@ exports.seed = function(knex, Promise) {
         last_name: 'SwizzleStopper',
         email: 'adam@example.com',
         hashed_password: '$2a$12$C9AYYmcLVGYlGoO4vSZTPud9ArJwbGRsJ6TUsNULzR48z8fOnTXbS',
-      })
-    );
+      },
+    ));
   });
 };

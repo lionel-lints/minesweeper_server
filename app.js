@@ -3,7 +3,7 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const helmet = require('helmet')
+const helmet = require('helmet');
 
 require('dotenv').load();
 
@@ -12,7 +12,7 @@ const routes = require('./routes/index');
 const app = express();
 
 /* Middleware */
-app.get('env') === 'development' ? app.use(logger('dev')): '';
+app.use(logger(app.get('env') === 'development' ? 'dev' : 'tiny'));
 
 /*  Set security-related headers */
 app.use(helmet());
@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /* Set sensible security cookie defaults */
 app.use(cookieParser(process.env.COOKIE_SECRET, {
   httpOnly: true,
-  expires: 14*24*60*60*1000
+  expires: 14 * 24 * 60 * 60 * 1000,
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -43,7 +43,7 @@ app.use((err, req, res, next) => {
   res.json({
     message: err.message,
     /* if dev env show error, if not, show nothing */
-    error: app.get('env') === 'development' ? err : {}
+    error: app.get('env') === 'development' ? err : {},
   });
 });
 

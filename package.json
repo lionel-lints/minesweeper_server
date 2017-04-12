@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "lint": "node_modules/eslint/bin/eslint.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -24,5 +25,12 @@
   "main": "app.js",
   "repository": "git@github.com:lionel-lints/minesweeper_server.git",
   "author": "lionel lints <lionel.lints@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3"
+  }
 }

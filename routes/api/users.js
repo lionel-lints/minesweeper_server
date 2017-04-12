@@ -1,15 +1,18 @@
 const express = require('express');
-const router = express.Router();
-
 const games = require('./games');
 const tables = require('../../db/tables');
+
+const router = express.Router();
 
 /* GET users. MUST BE REMOVED BEFORE GOING LIVE*/
 router.get('/', (req, res) => {
   tables.Users().then((users) => {
     res.json(users);
   }).catch((error) => {
-    console.error(error);
+    res.status(500).json({
+      status: 'users not retrieved from db',
+      error,
+    });
   });
 });
 
@@ -18,7 +21,10 @@ router.get('/:id', (req, res, next) => {
   tables.Users().where({ id: req.params.id }).then((user) => {
     res.json(user);
   }).catch((error) => {
-    console.error(error);
+    res.status(500).json({
+      status: 'user not retrieved from db',
+      error,
+    });
   });
 });
 
