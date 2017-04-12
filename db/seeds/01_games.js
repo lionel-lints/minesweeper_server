@@ -71,7 +71,7 @@ exports.seed = (knex, Promise) => {
         completion_speed: '078',
         current_game: true,
         successfully_completed: false,
-      }),
+      })
     );
   });
 };
