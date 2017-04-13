@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -26,6 +27,11 @@ app.use(cookieParser(process.env.COOKIE_SECRET, {
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.options('*', cors({
+  methods: ['GET','PUT','POST','DELETE','OPTIONS'],
+  allowedHeaders: ['Authorization', 'Content-Type']
+}));
 
 /*  Router */
 app.use('/', routes);
