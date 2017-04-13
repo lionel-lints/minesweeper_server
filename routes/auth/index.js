@@ -57,7 +57,7 @@ router.use('/login', bouncer.block, (req, res, next) => {
 });
 
 router.use('/logout', (req, res, next) => {
-  res.clearCookie('token');
+  res.clearCookie('token')
   res.json({ title: 'You have logged out!' });
 });
 

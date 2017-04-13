@@ -28,7 +28,12 @@ app.use(cookieParser(process.env.COOKIE_SECRET, {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.options('*', cors());
+app.use(cors({
+  credentials: true,
+  origin: true,
+  methods: ['GET','PUT','POST','DELETE','OPTIONS'],
+  allowedHeaders: ['Authorization', 'Cache', 'Content-Type'] 
+}));
 
 /*  Router */
 app.use('/', routes);
