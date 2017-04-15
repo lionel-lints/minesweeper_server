@@ -6,6 +6,8 @@ const moment = require('moment');
 require('dotenv').load();
 
 const getTokenFromHeader = (req) => {
+  if (req.cookies.token) return req.cookies.token;
+
   const token = req.get('Authorization');
   if (token) {
     const tokenSplit = token.split(' ');

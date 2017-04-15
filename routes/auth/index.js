@@ -20,9 +20,9 @@ router.use('/register', (req, res, next) => {
   return createUser(req)
   .then(user => encodeToken(user[0]))
   .then((token) => {
+    res.cookie('token', token, { httpOnly: true });
     res.status(200).json({
-      status: 'success',
-      token,
+      status: 'success'
     });
   })
   .catch((err) => {
@@ -33,7 +33,15 @@ router.use('/register', (req, res, next) => {
   });
 });
 
-router.use('/login', bouncer.block, (req, res, next) => {
+router.use('/loggedIn', bouncer.block, (req, res, next) => {
+  if (res.locals.user && res.locals.user.sub) {
+    res.redirect(`/api/v1/users/${res.locals.user.sub}`);
+  } else {
+    res.sendStatus(304);
+  }
+});
+
+router.post('/login', bouncer.block, (req, res, next) => {
   return tables.Users().where({ email: req.body.email }).first()
   .then((response) => {
     comparePass(req.body.hashed_password, response.hashed_password);
@@ -46,7 +54,6 @@ router.use('/login', bouncer.block, (req, res, next) => {
     res.cookie('token', token, { httpOnly: true });
     res.status(200).json({
       status: 'success',
-      token,
     });
   })
   .catch((err) => {
@@ -58,7 +65,15 @@ router.use('/login', bouncer.block, (req, res, next) => {
 
 router.use('/logout', (req, res, next) => {
   res.clearCookie('token')
-  res.json({ title: 'You have logged out!' });
+  res.json({ 
+    title: 'You have logged out!',
+    user: {
+      email: null,
+      first_name: null,
+      last_name: null
+    },
+    isLoggedIn: false
+  });
 });
 
 module.exports = router;
