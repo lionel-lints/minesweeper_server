@@ -8,7 +8,6 @@ const helmet = require('helmet');
 
 require('dotenv').load();
 
-const test,
 const routes = require('./routes/index');
 
 const app = express();
